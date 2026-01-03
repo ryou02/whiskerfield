@@ -83,7 +83,10 @@ public class Player extends Entity {
 			isActioning = true;
 			actionCounter = 0;
 			actionSpriteNum = 1; 
-			keyH.ePressed = false; 
+			keyH.ePressed = false;
+			
+			// Convert grass to dirt in front of player
+			convertGrassToDirt();
 		}
 		
 		if (isActioning) {
@@ -203,5 +206,22 @@ public class Player extends Entity {
 
 
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+	}
+	
+	public void convertGrassToDirt() {
+		// Calculate the tile position the player is standing on using player's center
+		int playerCenterX = worldX + gp.tileSize / 2;
+		int playerCenterY = worldY + gp.tileSize / 2;
+		int tileCol = playerCenterX / gp.tileSize;
+		int tileRow = playerCenterY / gp.tileSize;
+		
+		// Check bounds
+		if (tileCol >= 0 && tileCol < gp.maxWorldCol && tileRow >= 0 && tileRow < gp.maxWorldRow) {
+			int tileNum = gp.tileM.mapTileNum[tileCol][tileRow];
+			// Check if it's a grass tile and convert to dirt (type 1)
+			if (gp.tileM.tile[tileNum].type != null && gp.tileM.tile[tileNum].type.equals("grass")) {
+				gp.tileM.mapTileNum[tileCol][tileRow] = 1; // 1 is dirt
+			}
+		}
 	}
 }
