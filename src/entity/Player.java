@@ -24,8 +24,8 @@ public class Player extends Entity {
 	}
 
 	public void setDefaultValues() {
-		x = 100;
-		y = 100;
+		worldX = 100;
+		worldY = 100;
 		speed = 4;
 		direction = "down";
 	}
@@ -49,19 +49,19 @@ public class Player extends Entity {
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 			if (keyH.upPressed == true) {
 				direction = "up";
-				y -= speed;
+				worldY -= speed;
 			}
 			if (keyH.downPressed == true) { 
 				direction = "down";
-				y += speed;
+				worldY += speed;
 			}
 			if (keyH.leftPressed == true) {
 				direction = "left";
-				x -= speed;
+				worldX -= speed;
 			}
 			if (keyH.rightPressed == true) {
 				direction = "right";
-				x += speed;
+				worldX += speed;
 			}
 
 			spriteCounter++;
@@ -111,6 +111,6 @@ public class Player extends Entity {
 		}
 
 		// *3 for scaling up the player size
-		g2.drawImage(image, x, y, gp.tileSize*3, gp.tileSize*3, null);
+		g2.drawImage(image, worldX, worldY, gp.tileSize*3, gp.tileSize*3, null);
 	}
 }
