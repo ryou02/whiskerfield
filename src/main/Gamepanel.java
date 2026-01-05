@@ -28,13 +28,19 @@ public class Gamepanel extends JPanel implements Runnable {
 	public final int worldWidth = tileSize * maxWorldCol;
 	public final int worldHeight = tileSize * maxWorldRow;
 
+	// GAME STATE
+	public int gameState;
+	public final int playState = 1;
+	public final int pauseState = 2;
+	
 
-	KeyHandler keyH = new KeyHandler();
+	KeyHandler keyH = new KeyHandler(this);
 	Thread gameThread;
 	public Player player = new Player(this, keyH);
 	public TileManager tileM = new TileManager(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	Sound sound = new Sound();
+	public UI ui = new UI(this);
 
 	public SuperObject obj[] = new SuperObject[10];
 	public AssetSetter assetSetter = new AssetSetter(this);
@@ -53,7 +59,7 @@ public class Gamepanel extends JPanel implements Runnable {
 
 	public void setupGame() {
 		assetSetter.setObject();
-
+		gameState = playState;
 		playMusic(0);
 	}
 
@@ -90,7 +96,12 @@ public class Gamepanel extends JPanel implements Runnable {
 	}
 
 	public void update() {
-		player.update();
+		if (gameState == playState) {
+			player.update();
+		}
+		if (gameState == pauseState) {
+			// Do nothing when paused
+		}
 	}
 
 	@Override
@@ -110,6 +121,9 @@ public class Gamepanel extends JPanel implements Runnable {
 
 		// Draw player on top
 		player.draw(g2);
+
+		// Draw UI
+		ui.draw(g2);
 
 		g2.dispose();
 	}
