@@ -40,6 +40,13 @@ public class Player extends Entity {
 	
 	BufferedImage actionUp1, actionUp2, actionDown1, actionDown2;
 	BufferedImage actionLeft1, actionLeft2, actionRight1, actionRight2;
+	BufferedImage idleUp1, idleUp2, idleDown1, idleDown2;
+	BufferedImage idleLeft1, idleLeft2, idleRight1, idleRight2;
+	
+	// Idle animation
+	int idleCounter = 0;
+	int idleSpriteNum = 1;
+	boolean isMoving = false;
 
 
 	public Player(Gamepanel gp, KeyHandler keyH) {
@@ -56,6 +63,7 @@ public class Player extends Entity {
 		setDefaultValues();
 		getPlayerImage();
 		getActionImage();
+		getIdleImage();
 	}
 
 	public void setDefaultValues() {
@@ -90,6 +98,21 @@ public class Player extends Entity {
 			actionLeft2 = ImageIO.read(getClass().getResourceAsStream("/res/player/action/left_2.png"));
 			actionRight1 = ImageIO.read(getClass().getResourceAsStream("/res/player/action/right_1.png"));
 			actionRight2 = ImageIO.read(getClass().getResourceAsStream("/res/player/action/right_2.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getIdleImage() {
+		try {
+			idleUp1 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_up_1.png"));
+			idleUp2 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_up_2.png"));
+			idleDown1 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_down_1.png"));
+			idleDown2 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_down_2.png"));
+			idleLeft1 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_left_1.png"));
+			idleLeft2 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_left_2.png"));
+			idleRight1 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_right_1.png"));
+			idleRight2 = ImageIO.read(getClass().getResourceAsStream("/res/player/idle/idle_right_2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -143,6 +166,7 @@ public class Player extends Entity {
 		}
 		
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+			isMoving = true;
 			if (keyH.upPressed == true) {
 				direction = "up";
 			}
@@ -190,6 +214,18 @@ public class Player extends Entity {
 				}
 				spriteCounter = 0;
 			}
+		} else {
+			// Not moving - play idle animation
+			isMoving = false;
+			idleCounter++;
+			if (idleCounter > 30) { // Slower animation for idle
+				if (idleSpriteNum == 1) {
+					idleSpriteNum = 2;
+				} else {
+					idleSpriteNum = 1;
+				}
+				idleCounter = 0;
+			}
 		}
 
 	}
@@ -223,8 +259,8 @@ public class Player extends Entity {
 					image = (actionSpriteNum == 2) ? actionRight2 : actionRight1;
 					break;
 			}
-		} else {
-
+		} else if (isMoving) {
+			// Walking animation
 			switch (direction) {
 				case "up":
 					if (spriteNum == 1) {
@@ -253,6 +289,22 @@ public class Player extends Entity {
 					} else {
 						image = right2;
 					}
+					break;
+			}
+		} else {
+			// Idle animation
+			switch (direction) {
+				case "up":
+					image = (idleSpriteNum == 1) ? idleUp1 : idleUp2;
+					break;
+				case "down":
+					image = (idleSpriteNum == 1) ? idleDown1 : idleDown2;
+					break;
+				case "left":
+					image = (idleSpriteNum == 1) ? idleLeft1 : idleLeft2;
+					break;
+				case "right":
+					image = (idleSpriteNum == 1) ? idleRight1 : idleRight2;
 					break;
 			}
 		}
