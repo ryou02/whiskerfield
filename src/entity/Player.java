@@ -309,8 +309,14 @@ public class Player extends Entity {
 			}
 		}
 
-
-		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+		// Draw with scaled width for side idles
+		if (!isMoving && !isActioning && (direction.equals("left") || direction.equals("right"))) {
+			int scaledWidth = (int)(gp.tileSize * 0.75); // 75% width for side idles
+			int offsetX = (gp.tileSize - scaledWidth) / 2; // Center it
+			g2.drawImage(image, screenX + offsetX, screenY, scaledWidth, gp.tileSize, null);
+		} else {
+			g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+		}
 	}
 	
 	public void convertGrassToTilledDirt() {
