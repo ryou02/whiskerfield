@@ -33,6 +33,7 @@ public class Player extends Entity {
 	public int inventoryCount = 0;
 	public boolean hasSeedPacket = false;
 	public int harvestCount = 0;
+	public int money = 0;
 	
 	// Dialogue cooldown
 	public int dialogueCooldown = 0;
@@ -368,5 +369,22 @@ public class Player extends Entity {
 			}
 		}
 		return 0;
+	}
+	
+	public void sellFruits() {
+		for (int i = 0; i < inventoryCount; i++) {
+			if (inventory[i] != null && inventory[i].name.equals("Plant Pickup")) {
+				money += inventory[i].stackCount; // $1 per fruit
+				// Remove the plant pickup from inventory
+				inventory[i] = null;
+				// Shift inventory items
+				for (int j = i; j < inventoryCount - 1; j++) {
+					inventory[j] = inventory[j + 1];
+				}
+				inventory[inventoryCount - 1] = null;
+				inventoryCount--;
+				return;
+			}
+		}
 	}
 }

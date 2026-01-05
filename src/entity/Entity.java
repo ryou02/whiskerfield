@@ -65,6 +65,7 @@ public class Entity {
   public void speak() {
     // Check actual fruit count in inventory
     if (gp.player.getFruitCount() > 0) {
+      gp.player.sellFruits(); // Sell all fruits for $1 each
       gp.ui.currentDialogue = dialogues[1]; // "Glad doing business with you!"
     } else {
       gp.ui.currentDialogue = dialogues[0]; // "I love eating fruits! Sell me fruits..."

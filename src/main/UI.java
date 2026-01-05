@@ -21,6 +21,9 @@ public class UI {
         // Always draw inventory
         drawInventory(g2);
         
+        // Always draw money UI
+        drawMoneyUI(g2);
+        
         if (gp.gameState == gp.pauseState) {
             drawPauseScreen(g2);
         }
@@ -98,5 +101,32 @@ public class UI {
         int textX = x + (width - textWidth) / 2;
         int textY = y + height / 2;
         g2.drawString(currentDialogue, textX, textY);
+    }
+    
+    public void drawMoneyUI(Graphics2D g2) {
+        // Position at top left
+        int x = 10;
+        int y = 10;
+        int width = gp.tileSize * 3;
+        int height = gp.tileSize;
+        
+        // Draw semi-transparent rounded box
+        g2.setColor(new Color(0, 0, 0, 180));
+        g2.fillRoundRect(x, y, width, height, 20, 20);
+        
+        // Draw gold border
+        g2.setColor(new Color(255, 215, 0));
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(x + 2, y + 2, width - 4, height - 4, 18, 18);
+        
+        // Draw money icon ($)
+        g2.setFont(new Font("Arial", Font.BOLD, 24));
+        g2.setColor(new Color(255, 215, 0));
+        g2.drawString("$", x + 12, y + height / 2 + 8);
+        
+        // Draw money amount
+        g2.setFont(arial_20);
+        g2.setColor(Color.white);
+        g2.drawString(String.valueOf(gp.player.money), x + 35, y + height / 2 + 7);
     }
 }
