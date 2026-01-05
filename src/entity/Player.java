@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import main.Gamepanel;
 import main.KeyHandler;
+import object.SuperObject;
 
 public class Player extends Entity {
 	Gamepanel gp;
@@ -24,6 +25,12 @@ public class Player extends Entity {
 	int actionCounter = 0;
 	int actionSpriteNum = 1;
 	public boolean hasHoe = false;
+	
+	// Inventory
+	public final int maxInventorySize = 5;
+	public SuperObject[] inventory = new SuperObject[maxInventorySize];
+	public int inventoryCount = 0;
+	
 	BufferedImage actionUp1, actionUp2, actionDown1, actionDown2;
 	BufferedImage actionLeft1, actionLeft2, actionRight1, actionRight2;
 
@@ -235,6 +242,11 @@ public class Player extends Entity {
 			
 			if (objectName.equals("Hoe")) {
 				hasHoe = true;
+				// Add to inventory if there's space
+				if (inventoryCount < maxInventorySize) {
+					inventory[inventoryCount] = gp.obj[index];
+					inventoryCount++;
+				}
 				gp.obj[index] = null; // Remove the hoe from the world
 			}
 		}
