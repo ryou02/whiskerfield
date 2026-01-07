@@ -11,10 +11,11 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 ---
 
 ## 📸 Screenshots
+![Gameplay Screenshot 1](src/res/preview/prev3.png)
 
-![Gameplay Screenshot 1](src/res/preview/prev1.png)
+![Gameplay Screenshot 2](src/res/preview/prev1.png)
 
-![Gameplay Screenshot 2](src/res/preview/prev2.png)
+![Gameplay Screenshot 3](src/res/preview/prev2.png)
 
 ---
 
