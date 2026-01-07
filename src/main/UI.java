@@ -2,18 +2,28 @@ package main;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UI {
     Gamepanel gp;
-    Font arial_40;
-    Font arial_20;
-    Font arial_30;
+    Font customFont;
+    Font font_40;
+    Font font_20;
+    Font font_30;
+    Font font_60;
     public String currentDialogue = "";
     
+    // Title screen
+    public int titleMenuSelection = 0; // 0 = Play, 1 = Quit
+    public int titleSpriteCounter = 0;
+    public int titleSpriteNum = 1;
+    
     // Pause menu
-    public int pauseMenuSelection = 0; // 0 = Music, 1 = Back
+    public int pauseMenuSelection = 0; // 0 = Music, 1 = Back to Game, 2 = Return to Menu
     public int musicVolume = 3; // 0-5 scale
     
     // Typing effect variables
@@ -25,24 +35,104 @@ public class UI {
 
     public UI(Gamepanel gp) {
         this.gp = gp;
-        arial_40 = new Font("Arial", Font.BOLD, 40);
-        arial_30 = new Font("Arial", Font.BOLD, 30);
-        arial_20 = new Font("Arial", Font.PLAIN, 20);
+        
+        // Load custom font
+        try {
+            InputStream is = getClass().getResourceAsStream("/res/fonts/new_font.ttf");
+            customFont = Font.createFont(Font.TRUETYPE_FONT, is);
+            font_60 = customFont.deriveFont(60f);
+            font_40 = customFont.deriveFont(40f);
+            font_30 = customFont.deriveFont(30f);
+            font_20 = customFont.deriveFont(20f);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            // Fallback to Arial if custom font fails
+            font_60 = new Font("Arial", Font.BOLD, 60);
+            font_40 = new Font("Arial", Font.BOLD, 40);
+            font_30 = new Font("Arial", Font.BOLD, 30);
+            font_20 = new Font("Arial", Font.PLAIN, 20);
+        }
     }
 
     public void draw(Graphics2D g2) {
-        // Always draw inventory
-        drawInventory(g2);
-        
-        // Always draw money UI
-        drawMoneyUI(g2);
-        
-        if (gp.gameState == gp.pauseState) {
-            drawPauseScreen(g2);
+        if (gp.gameState == gp.titleState) {
+            drawTitleScreen(g2);
+        } else {
+            // Always draw inventory
+            drawInventory(g2);
+            
+            // Always draw money UI
+            drawMoneyUI(g2);
+            
+            if (gp.gameState == gp.pauseState) {
+                drawPauseScreen(g2);
+            }
+            if (gp.gameState == gp.dialogueState) {
+                drawDialogueScreen(g2);
+            }
         }
-        if (gp.gameState == gp.dialogueState) {
-            drawDialogueScreen(g2);
+    }
+    
+    public void drawTitleScreen(Graphics2D g2) {
+        // Black background
+        g2.setColor(Color.black);
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        
+        // Title text
+        g2.setFont(font_60);
+        String title = "Whiskerfield";
+        int titleWidth = (int) g2.getFontMetrics().getStringBounds(title, g2).getWidth();
+        int titleX = gp.screenWidth / 2 - titleWidth / 2;
+        int titleY = gp.tileSize * 3;
+        
+        // Shadow
+        g2.setColor(Color.gray);
+        g2.drawString(title, titleX + 4, titleY + 4);
+        // Main title
+        g2.setColor(Color.white);
+        g2.drawString(title, titleX, titleY);
+        
+        // Animate player sprite
+        titleSpriteCounter++;
+        if (titleSpriteCounter > 20) {
+            titleSpriteNum = (titleSpriteNum == 1) ? 2 : 1;
+            titleSpriteCounter = 0;
         }
+        
+        // Draw player sprite (centered properly)
+        int spriteSize = gp.tileSize * 2;
+        int spriteX = gp.screenWidth / 2 - spriteSize / 2;
+        int spriteY = titleY + gp.tileSize;
+        if (titleSpriteNum == 1) {
+            g2.drawImage(gp.player.down1, spriteX, spriteY, spriteSize, spriteSize, null);
+        } else {
+            g2.drawImage(gp.player.down2, spriteX, spriteY, spriteSize, spriteSize, null);
+        }
+        
+        // Menu options
+        g2.setFont(font_30);
+        int menuY = spriteY + gp.tileSize * 3 + 20;
+        
+        // Play option
+        String playText = "PLAY";
+        int playWidth = (int) g2.getFontMetrics().getStringBounds(playText, g2).getWidth();
+        int playX = gp.screenWidth / 2 - playWidth / 2;
+        g2.setColor(Color.white);
+        if (titleMenuSelection == 0) {
+            g2.drawString(">", playX - 30, menuY);
+        }
+        g2.drawString(playText, playX, menuY);
+        
+        // Quit option
+        String quitText = "QUIT";
+        int quitWidth = (int) g2.getFontMetrics().getStringBounds(quitText, g2).getWidth();
+        int quitX = gp.screenWidth / 2 - quitWidth / 2;
+        int quitY = menuY + 50;
+        g2.setColor(Color.white);
+        if (titleMenuSelection == 1) {
+            g2.drawString(">", quitX - 30, quitY);
+        }
+        g2.drawString(quitText, quitX, quitY);
     }
 
     public void drawInventory(Graphics2D g2) {
@@ -69,7 +159,7 @@ public class UI {
                 
                 // Draw stack count if stackable and count > 1
                 if (gp.player.inventory[i].stackable && gp.player.inventory[i].stackCount > 1) {
-                    g2.setFont(arial_20);
+                    g2.setFont(font_20);
                     g2.setColor(Color.white);
                     String countText = String.valueOf(gp.player.inventory[i].stackCount);
                     g2.drawString(countText, x + slotSize - 15, y + slotSize - 5);
@@ -99,23 +189,22 @@ public class UI {
         g2.drawRoundRect(boxX + 3, boxY + 3, boxWidth - 6, boxHeight - 6, 18, 18);
         
         // Draw "Options" title
-        g2.setFont(arial_30);
+        g2.setFont(font_30);
         g2.setColor(Color.white);
         String title = "Options";
         int titleWidth = (int) g2.getFontMetrics().getStringBounds(title, g2).getWidth();
         g2.drawString(title, boxX + (boxWidth - titleWidth) / 2, boxY + 45);
         
-        // Draw Music option
-        g2.setFont(arial_20);
+        // Draw Music option (0)
+        g2.setFont(font_20);
         int optionX = boxX + 30;
-        int musicY = boxY + 100;
+        int musicY = boxY + 90;
         
         // Selection indicator for Music
+        g2.setColor(Color.white);
         if (pauseMenuSelection == 0) {
-            g2.setColor(Color.yellow);
             g2.drawString(">", optionX - 20, musicY);
         }
-        g2.setColor(Color.white);
         g2.drawString("Music", optionX, musicY);
         
         // Draw volume bar
@@ -138,14 +227,21 @@ public class UI {
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(barX, barY, barWidth, barHeight);
         
-        // Draw Back option
-        int backY = musicY + 50;
+        // Draw Return to Menu option (1)
+        int menuY = musicY + 40;
+        g2.setColor(Color.white);
         if (pauseMenuSelection == 1) {
-            g2.setColor(Color.yellow);
+            g2.drawString(">", optionX - 20, menuY);
+        }
+        g2.drawString("Return to Menu", optionX, menuY);
+        
+        // Draw Back to Game option (2)
+        int backY = menuY + 40;
+        g2.setColor(Color.white);
+        if (pauseMenuSelection == 2) {
             g2.drawString(">", optionX - 20, backY);
         }
-        g2.setColor(Color.white);
-        g2.drawString("Back", optionX, backY);
+        g2.drawString("Back to Game", optionX, backY);
     }
     
     public void drawDialogueScreen(Graphics2D g2) {
@@ -179,7 +275,7 @@ public class UI {
         }
         
         // Draw dialogue text centered
-        g2.setFont(arial_20);
+        g2.setFont(font_20);
         int textWidth = (int) g2.getFontMetrics().getStringBounds(currentDialogue, g2).getWidth();
         int textX = x + (width - textWidth) / 2;
         int textY = y + height / 2;
@@ -223,12 +319,12 @@ public class UI {
         g2.drawRoundRect(x + 2, y + 2, width - 4, height - 4, 18, 18);
         
         // Draw money icon ($)
-        g2.setFont(new Font("Arial", Font.BOLD, 24));
+        g2.setFont(font_20);
         g2.setColor(new Color(255, 215, 0));
         g2.drawString("$", x + 12, y + height / 2 + 8);
         
         // Draw money amount
-        g2.setFont(arial_20);
+        g2.setFont(font_20);
         g2.setColor(Color.white);
         g2.drawString(String.valueOf(gp.player.money), x + 35, y + height / 2 + 7);
     }

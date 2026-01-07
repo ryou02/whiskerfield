@@ -21,6 +21,34 @@ public class KeyHandler implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 
+		// Title state controls
+		if (gp.gameState == gp.titleState) {
+			if (code == KeyEvent.VK_UP || code == KeyEvent.VK_W) {
+				gp.ui.titleMenuSelection--;
+				if (gp.ui.titleMenuSelection < 0) {
+					gp.ui.titleMenuSelection = 1;
+				}
+				gp.playSoundEffect(5); // Menu sound
+			}
+			if (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_S) {
+				gp.ui.titleMenuSelection++;
+				if (gp.ui.titleMenuSelection > 1) {
+					gp.ui.titleMenuSelection = 0;
+				}
+				gp.playSoundEffect(5); // Menu sound
+			}
+			if (code == KeyEvent.VK_ENTER) {
+				if (gp.ui.titleMenuSelection == 0) {
+					// Play
+					gp.gameState = gp.playState;
+				} else if (gp.ui.titleMenuSelection == 1) {
+					// Quit
+					System.exit(0);
+				}
+			}
+			return;
+		}
+
 		// Pause state controls
 		if (gp.gameState == gp.pauseState) {
 			if (code == KeyEvent.VK_ESCAPE) {
@@ -29,14 +57,16 @@ public class KeyHandler implements KeyListener {
 			if (code == KeyEvent.VK_UP || code == KeyEvent.VK_W) {
 				gp.ui.pauseMenuSelection--;
 				if (gp.ui.pauseMenuSelection < 0) {
-					gp.ui.pauseMenuSelection = 1;
+					gp.ui.pauseMenuSelection = 2;
 				}
+				gp.playSoundEffect(5); // Menu sound
 			}
 			if (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_S) {
 				gp.ui.pauseMenuSelection++;
-				if (gp.ui.pauseMenuSelection > 1) {
+				if (gp.ui.pauseMenuSelection > 2) {
 					gp.ui.pauseMenuSelection = 0;
 				}
+				gp.playSoundEffect(5); // Menu sound
 			}
 			// Left/Right to adjust volume when Music is selected
 			if (gp.ui.pauseMenuSelection == 0) {
@@ -55,10 +85,16 @@ public class KeyHandler implements KeyListener {
 					gp.setMusicVolume(gp.ui.musicVolume);
 				}
 			}
-			// Enter to select Back
+			// Enter to select options
 			if (code == KeyEvent.VK_ENTER) {
 				if (gp.ui.pauseMenuSelection == 1) {
+					// Return to Menu
+					gp.gameState = gp.titleState;
+					gp.ui.pauseMenuSelection = 0;
+				} else if (gp.ui.pauseMenuSelection == 2) {
+					// Back to Game
 					gp.gameState = gp.playState;
+					gp.ui.pauseMenuSelection = 0;
 				}
 			}
 			return; // Don't process other keys in pause state

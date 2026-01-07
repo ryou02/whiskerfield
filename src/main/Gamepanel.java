@@ -33,6 +33,7 @@ public class Gamepanel extends JPanel implements Runnable {
 
 	// GAME STATE
 	public int gameState;
+	public final int titleState = 0;
 	public final int playState = 1;
 	public final int pauseState = 2;
 	public final int dialogueState = 3;
@@ -67,7 +68,7 @@ public class Gamepanel extends JPanel implements Runnable {
 	public void setupGame() {
 		assetSetter.setObject();
 		assetSetter.setNPC();
-		gameState = playState;
+		gameState = titleState;
 		playMusic(0);
 	}
 
