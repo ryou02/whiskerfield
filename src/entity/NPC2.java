@@ -25,7 +25,7 @@ public class NPC2 extends Entity {
 
     public void setDefaultValues() {
         worldX = gp.tileSize * 19;
-        worldY = gp.tileSize * 8;
+        worldY = gp.tileSize * 15;
         speed = 0; // Stationary NPC
         direction = "down";
         
