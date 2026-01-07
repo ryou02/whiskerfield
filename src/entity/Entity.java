@@ -71,5 +71,8 @@ public class Entity {
       gp.ui.setDialogue(dialogues[0]); // "I love eating fruits! Sell me fruits..."
     }
     gp.gameState = gp.dialogueState;
+    
+    // Play dialogue music
+    gp.playDialogueMusic();
   }
 }

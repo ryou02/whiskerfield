@@ -177,4 +177,12 @@ public class Gamepanel extends JPanel implements Runnable {
 		sound.setFile(i);
 		sound.play();
 	}
+	
+	public void playDialogueMusic() {
+		sound.playDialogueMusic();
+	}
+	
+	public void stopDialogueMusic() {
+		sound.stopDialogueMusic();
+	}
 }

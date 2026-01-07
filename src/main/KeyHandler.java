@@ -35,6 +35,7 @@ public class KeyHandler implements KeyListener {
 				code == KeyEvent.VK_S || code == KeyEvent.VK_D) {
 				gp.gameState = gp.playState;
 				gp.ui.resetDialogue(); // Reset typing effect when exiting dialogue
+				gp.stopDialogueMusic(); // Stop dialogue music
 			}
 		}
 

@@ -132,6 +132,9 @@ public class Player extends Entity {
 			
 			// Convert grass to tilled dirt in front of player
 			convertGrassToTilledDirt();
+			
+			// Play tile sound
+			gp.playSoundEffect(3);
 		} else if (keyH.ePressed && !hasHoe) {
 			keyH.ePressed = false; // Consume the key press even without hoe
 		}
@@ -213,6 +216,8 @@ public class Player extends Entity {
 					spriteNum = 1;
 				}
 				spriteCounter = 0;
+				// Play grass walking sound
+				gp.playSoundEffect(1);
 			}
 		} else {
 			// Not moving - play idle animation
@@ -398,6 +403,9 @@ public class Player extends Entity {
 	public void pickUpObject(int index) {
 		if (index != 999) {
 			String objectName = gp.obj[index].name;
+			
+			// Play pickup sound
+			gp.playSoundEffect(2);
 			
 			if (objectName.equals("Hoe")) {
 				hasHoe = true;

@@ -16,6 +16,7 @@ public class UI {
     private int charIndex = 0;
     private int typingCounter = 0;
     private int typingSpeed = 2; // Lower = faster typing
+    private boolean dialogueFinished = false;
 
     public UI(Gamepanel gp) {
         this.gp = gp;
@@ -109,6 +110,10 @@ public class UI {
                 currentDialogue = fullDialogue.substring(0, charIndex);
                 typingCounter = 0;
             }
+        } else if (charIndex > 0 && charIndex == fullDialogue.length() && !dialogueFinished) {
+            // Dialogue finished typing - stop the music
+            dialogueFinished = true;
+            gp.stopDialogueMusic();
         }
         
         // Draw dialogue text centered
@@ -126,6 +131,7 @@ public class UI {
             currentDialogue = "";
             charIndex = 0;
             typingCounter = 0;
+            dialogueFinished = false;
         }
     }
     
@@ -135,6 +141,7 @@ public class UI {
         currentDialogue = "";
         charIndex = 0;
         typingCounter = 0;
+        dialogueFinished = false;
     }
     
     public void drawMoneyUI(Graphics2D g2) {
