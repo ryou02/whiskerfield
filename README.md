@@ -72,7 +72,7 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 | Key | Action |
 |-----|--------|
 | WASD | Move |
-| E | Till soil / Interact |
+| E | Till soil |
 | R | Plant seeds |
 | T | Harvest crops |
 | ESC | Pause menu(use arrow keys and enter to navigate) |
