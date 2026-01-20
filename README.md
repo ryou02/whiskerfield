@@ -1,6 +1,6 @@
 # 🌾 Whiskerfield
 
-A cozy 2D farming game built entirely in Java with zero external libraries.
+A 2D farming game built entirely in Java with zero external libraries.
 
 ---
 
