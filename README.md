@@ -28,7 +28,7 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ToxicSheep/whiskerfield.git
+   git clone https://github.com/ryou02/whiskerfield.git
    cd whiskerfield
    ```
 
