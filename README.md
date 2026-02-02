@@ -53,17 +53,6 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
   - Tile-based world rendering with screen optimization
   - Entity system for player and NPCs
   - Collision detection
-- **Resolution:** 768x576 (48px tiles, 16x12 grid)
-- **Target FPS:** 60
-
----
-
-## 🔮 Future Plans
-
-- [ ] **Shop System** — Spend your hard earned money on upgrades
-- [ ] **Fences & Decorations** — Customize your farm layout
-- [ ] **More Crops** — Variety of plants with different growth times and values
-- [ ] **Save/Load** — Persistent game progress
 
 ---
 
