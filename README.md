@@ -101,7 +101,7 @@ The game thread targets 60 updates per second. Frame timing is controlled using 
 
 **Technologies**
 - Pure Java 21 with zero external libraries
-- Java AWT/Swing for graphics and input handling (KeyListener), Java Sound API for audio, and ImageIO for asset loading..
+- Java AWT/Swing for graphics and input handling (KeyListener), Java Sound API for audio, and ImageIO for asset loading.
 
 ---
 
