@@ -62,7 +62,7 @@ Whiskerfield runs on a dedicated game thread. When the game starts, `startGameTh
    - Player (always on top)
    - UI elements (dialogue, menus, HUD)
 
-The game thread targets 60 updates per second. Frame timing is controlled using 'System.nanoTime()' and 'Thread.sleep()' to keep the game running at a consistent speed and to avoid updating too quickly.
+The game thread targets 60 updates per second. Frame timing is controlled using `System.nanoTime()` and `Thread.sleep()` to keep the game running at a consistent speed and to avoid updating too quickly.
 
 ![Gameloop](src/res/preview/gameloop.png)
 
