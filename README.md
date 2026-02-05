@@ -55,14 +55,16 @@ Whiskerfield runs on a dedicated game thread. When the game starts, `startGameTh
    - Update all NPC movement and behavior
    - Update plant growth timers (plants grow through 3 stages over time)
    - Handle collision detection for all entities
-2. **Render Phase** — `repaint()` triggers the rendering pipeline via `paintComponent()`:
+2. **Render Phase** — `repaint()` triggers the rendering pipeline via `paintComponent()` to draw with the following with the updated information:
    - Tiles (background layer)
    - Objects (decorations, tools, seeds)
    - NPCs
    - Player (always on top)
    - UI elements (dialogue, menus, HUD)
 
-The game loop uses delta time calculations to maintain consistent 60 FPS timing, sleeping the thread for the remaining frame time to prevent CPU overuse.
+The game thread targets 60 updates per second. Frame timing is controlled using 'System.nanoTime()' and 'Thread.sleep()' to keep the game running at a consistent speed and to avoid updating too quickly.
+
+![Gameloop](src/res/preview/gameloop.png)
 
 ### Other Core Systems
 
