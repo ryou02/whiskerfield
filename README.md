@@ -6,7 +6,7 @@ A 2D farming game built entirely in Java with zero external libraries.
 
 ## 📖 About
 
-Whiskerfield is a simple farming simulation where you till the land, plant seeds, harvest crops, and sell your produce to make money. Explore your farm, chat with NPCs, and build your farming fortune!
+Whiskerfield is a simple farming simulation where you till the land, plant seeds, harvest crops, and sell your produce to make money. Explore your farm, chat with NPCs, and make bread $$.
 
 ---
 
@@ -45,14 +45,49 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 
 ---
 
-## 🛠️ Tech Details
+## ⚙️ How It Works
 
-- **Language:** Java 21
-- **Graphics:** Java AWT/Swing (no game engines or external libraries)
-- **Architecture:** 
-  - Tile-based world rendering with screen optimization
-  - Entity system for player and NPCs
-  - Collision detection
+### The Game Loop
+Whiskerfield runs on a dedicated game thread. When the game starts, `startGameThread()` is ran and creates a new thread that runs the following game loop: 
+
+1. **Update Phase** — `update()` is called every frame to:
+   - Update player position and animations based on keyboard input
+   - Update all NPC movement and behavior
+   - Update plant growth timers (plants grow through 3 stages over time)
+   - Handle collision detection for all entities
+2. **Render Phase** — `repaint()` triggers the rendering pipeline via `paintComponent()`:
+   - Tiles (background layer)
+   - Objects (decorations, tools, seeds)
+   - NPCs
+   - Player (always on top)
+   - UI elements (dialogue, menus, HUD)
+
+The game loop uses delta time calculations to maintain consistent 60 FPS timing, sleeping the thread for the remaining frame time to prevent CPU overuse.
+
+### Other Core Systems
+
+**Tile-Based World**
+- 50x50 tile world map loaded from a textfile(map01.txt). Each number represents a block (for an example 3 is a water block).
+- Camera follows player and renders tiles only the player can see rather than the whole map(camera culling) to help optimize rendering. 
+- Each tile has the properties type, collision, and image.
+
+**Entity System**
+- Each entity(NPCs and player) has position, speed, direction, collision box, and sprite animations.
+- Collision detection uses bounding box intersection tests.
+
+**States**
+- Game states: Title, Play, Pause, Dialogue.
+- State determines which systems update and what UI renders.
+- Input handling changes based on current state.
+
+**Plant Growth System**
+- Plants stored in an ArrayList with growth stages (1-3).
+- Each plant tracks a frame counter that increments every update.
+- When counter reaches threshold (300 frames ≈ 5 seconds), plant advances to next stage.
+
+**Technologies**
+- Pure Java 21 with zero external libraries
+- Java AWT/Swing for graphics and input handling (KeyListener), Java Sound API for audio, and ImageIO for asset loading..
 
 ---
 
