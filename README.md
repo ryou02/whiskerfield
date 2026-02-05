@@ -45,6 +45,18 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 
 ---
 
+## 🎮 Controls
+
+| Key | Action |
+|-----|--------|
+| WASD | Move |
+| E | Till soil |
+| R | Plant seeds |
+| T | Harvest crops |
+| ESC | Pause menu(use arrow keys and enter to navigate) |
+
+---
+
 ## ⚙️ How It Works
 
 ### The Game Loop
@@ -90,18 +102,6 @@ The game thread targets 60 updates per second. Frame timing is controlled using 
 **Technologies**
 - Pure Java 21 with zero external libraries
 - Java AWT/Swing for graphics and input handling (KeyListener), Java Sound API for audio, and ImageIO for asset loading..
-
----
-
-## 🎮 Controls
-
-| Key | Action |
-|-----|--------|
-| WASD | Move |
-| E | Till soil |
-| R | Plant seeds |
-| T | Harvest crops |
-| ESC | Pause menu(use arrow keys and enter to navigate) |
 
 ---
 
