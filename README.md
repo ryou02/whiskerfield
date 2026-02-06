@@ -67,7 +67,7 @@ Whiskerfield runs on a dedicated game thread. When the game starts, `startGameTh
    - Update all NPC movement and behavior
    - Update plant growth timers (plants grow through 3 stages over time)
    - Handle collision detection for all entities
-2. **Render Phase** — `repaint()` triggers the rendering pipeline via `paintComponent()` to draw with the following with the updated information:
+2. **Render Phase** — `repaint()` triggers the rendering pipeline via `paintComponent()` to draw the following with the updated information:
    - Tiles (background layer)
    - Objects (decorations, tools, seeds)
    - NPCs
