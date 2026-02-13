@@ -1,16 +1,16 @@
-# 🌾 Whiskerfield
+# Whiskerfield
 
 A 2D farming game built entirely in Java with zero external libraries.
 
 ---
 
-## 📖 About
+## About
 
 Whiskerfield is a simple farming simulation where you till the land, plant seeds, harvest crops, and sell your produce to make money. Explore your farm, chat with NPCs, and make bread $$.
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 ![Gameplay Screenshot 1](src/res/preview/prev3.png)
 
 ![Gameplay Screenshot 2](src/res/preview/prev1.png)
@@ -19,7 +19,7 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 ### Prerequisites
 - Java 17 or higher (JDK)
@@ -45,7 +45,7 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 
 ---
 
-## 🎮 Controls
+## Controls
 
 | Key | Action |
 |-----|--------|
@@ -57,7 +57,7 @@ Whiskerfield is a simple farming simulation where you till the land, plant seeds
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
 ### The Game Loop
 Whiskerfield runs on a dedicated game thread. When the game starts, `startGameThread()` is ran and creates a new thread that runs the following game loop: 
@@ -105,6 +105,6 @@ The game thread targets 60 updates per second. Frame timing is controlled using 
 
 ---
 
-## 🎨 Sprite Credits
+## Sprite Credits
 
 This game primarily uses art assets from Cup Nooble, with additional assets credited to their respective creators.
