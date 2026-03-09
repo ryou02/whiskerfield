@@ -100,7 +100,7 @@ The game thread targets 60 updates per second. Frame timing is controlled using 
 - When counter reaches threshold (300 frames ≈ 5 seconds), plant advances to next stage.
 
 **Technologies**
-- Pure Java 21 with zero external libraries
+- Pure Java 21 with zero external libraries.
 - Java AWT/Swing for graphics and input handling (KeyListener), Java Sound API for audio, and ImageIO for asset loading.
 
 ---
